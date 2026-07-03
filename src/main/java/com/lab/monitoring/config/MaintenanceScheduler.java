@@ -1,4 +1,4 @@
-package com.lab.monitoring.component;
+package com.lab.monitoring.config;
 
 import com.lab.monitoring.entity.*;
 import com.lab.monitoring.repository.MaintenanceParameterRepository;
@@ -30,7 +30,7 @@ public class MaintenanceScheduler {
             "Juli", "Agustus", "September", "Oktober", "November", "Desember"
     };
 
-    @Scheduled(fixedDelay = 15000)
+    @Scheduled(cron = "0 0 8 * * ?")
     @Transactional
     public void checkEquipmentThresholds() {
         System.out.println("⏰ [SCHEDULER] Memulai pemindaian otomatis sinkronisasi: " + LocalDateTime.now());
@@ -76,9 +76,11 @@ public class MaintenanceScheduler {
                         if (m < currentMonth) {
                             isDanger = true;
                             reasonMessage = String.format("mengalami kelalaian karena BELUM DIKERJAKAN pada periode bulan %s %d.", namaBulanTeks, currentYear);
-                        } else if (m == currentMonth && daysRemaining <= 7) {
+                        }
+                        // 😉 PERUBAHAN 2: Aktif eksklusif hanya di hari H-7 akhir bulan
+                        else if (m == currentMonth && daysRemaining == 7) {
                             isDanger = true;
-                            reasonMessage = String.format("memasuki masa kritis H-%d sebelum akhir bulan %s dan belum diberi tindakan checklist.", daysRemaining, namaBulanTeks);
+                            reasonMessage = String.format("memasuki masa kritis TEPAT H-7 sebelum akhir bulan %s dan belum diberi tindakan checklist.", namaBulanTeks);
                         }
                     }
                 }
