@@ -7,7 +7,7 @@ COPY pom.xml .
 COPY src ./src
 
 # Jalankan command Maven untuk membungkus proyek menjadi .jar (lewati unit test agar cepat)
-RUN mvn clean package -DskipTests
+RUN mvn clean package -Dmaven.test.skip=true
 
 # Stage 2: Jalankan file .jar menggunakan JRE 17 yang jauh lebih ringan dan hemat RAM
 FROM eclipse-temurin:17-jre-jammy
