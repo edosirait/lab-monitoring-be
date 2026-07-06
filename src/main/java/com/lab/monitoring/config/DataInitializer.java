@@ -47,6 +47,15 @@ public class DataInitializer implements CommandLineRunner {
             admin.setUpdatedAt(LocalDateTime.now());
             userRepository.save(admin);
 
+            // 4. Akun Supervisor Baru
+            User supervisor2 = new User();
+            supervisor2.setName("Agus SPV");
+            supervisor2.setUsername("spv.agus");
+            supervisor2.setPasswordHash("password123");
+            supervisor2.setRole(Enums.UserRole.SUPERVISOR);
+            supervisor2.setUpdatedAt(LocalDateTime.now());
+            userRepository.save(supervisor2);
+
             System.out.println("====================================================================");
             System.out.println("🚩 [LAB MONITORING] BERHASIL SEEDING 3 USER ROLE KE DATABASE POSTGRES");
             System.out.println("====================================================================");
